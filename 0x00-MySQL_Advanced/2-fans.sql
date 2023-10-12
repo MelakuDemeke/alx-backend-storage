@@ -1,4 +1,4 @@
--- Rank bands' origins by total non-unique fans.
+-- Rank bands' origins by total non-unique fans
 SELECT origin AS origin, SUM(fans) AS nb_fans
 FROM metal_bands
 GROUP BY origin
