@@ -8,3 +8,9 @@ if __name__ == "__main__":
 
     total_logs_count = nginx_logs_collection.count_documents({})
     print(f'{total_logs_count} logs')
+
+    http_methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    print('Methods:')
+    for method in http_methods:
+        method_count = nginx_logs_collection.count_documents({"method": method})
+        print(f'\tmethod {method}: {method_count}')
