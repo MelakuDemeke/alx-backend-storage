@@ -14,3 +14,9 @@ if __name__ == "__main__":
     for method in http_methods:
         method_count = nginx_logs_collection.count_documents({"method": method})
         print(f'\tmethod {method}: {method_count}')
+    
+    status_check_count = nginx_logs_collection.count_documents(
+        {"method": "GET", "path": "/status"}
+    )
+
+    
