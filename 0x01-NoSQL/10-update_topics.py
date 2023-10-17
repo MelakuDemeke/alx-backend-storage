@@ -12,7 +12,6 @@ def update_topics(mongo_collection, name, topics):
     Returns:
     None
     '''
-    mongo_collection.update_many(
-        {name: name},
-        {"$set": {"topics": topics}}
-    )
+    query = {"name": name}
+    update_query = {"$set": {"topics": topics}}
+    mongo_collection.update_many(query, update_query)
