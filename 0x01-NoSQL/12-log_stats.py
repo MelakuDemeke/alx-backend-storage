@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
-""" MongoDB Operations with Python using pymongo """
+'''
+This script connects to a MongoDB database, queries an nginx logs collection,
+and prints various statistics.
+'''
 from pymongo import MongoClient
 
 if __name__ == "__main__":
-    """ Provides some stats about Nginx logs stored in MongoDB """
+    '''prints statistics related to nginx logs'''
     client = MongoClient('mongodb://127.0.0.1:27017')
     nginx_collection = client.logs.nginx
 
