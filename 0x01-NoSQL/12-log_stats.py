@@ -5,6 +5,9 @@ and prints various statistics.
 '''
 from pymongo import MongoClient
 
+def log_stats(mongo_collection, option=None):
+    pass
+
 if __name__ == "__main__":
     '''
     This is the main part of the script where it connects to a MongoDB database
