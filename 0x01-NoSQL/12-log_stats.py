@@ -6,6 +6,18 @@ and prints various statistics.
 from pymongo import MongoClient
 
 def log_stats(nginx_logs_coll, option=None):
+    '''
+    This function prints statistics related to nginx logs.
+
+    Args:
+    nginx_logs_coll (pymongo.collection.Collection): The MongoDB collection
+                    containing nginx logs.
+    option (str, optional): An HTTP method to filter logs by. If provided,
+                    statistics for that method will be printed.
+
+    Returns:
+    None
+    '''
     items = {}
     if option:
         value = nginx_logs_coll.count_documents(
