@@ -27,5 +27,7 @@ class Cache:
         return utf_val
 
     def get_int(self, key: str) -> int:
-        pass
+        val = self._redis.get(key)
+        vla_int = int(val.decode('utf-8'))
+        return vla_int
 
