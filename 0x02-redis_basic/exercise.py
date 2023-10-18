@@ -4,6 +4,9 @@ from typing import Union, Optional, Callable
 from uuid import uuid4
 
 
+def count_calls(method: Callable) -> Callable:
+    pass
+
 class Cache:
     def __init__(self):
         self._redis = redis.Redis()
