@@ -20,3 +20,6 @@ class Cache:
             if fn:
                 val = fn(val)
             return val
+
+    def get_str():
+        pass
