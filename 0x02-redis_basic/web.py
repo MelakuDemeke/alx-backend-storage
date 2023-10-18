@@ -1,32 +1,56 @@
 #!/usr/bin/env python3
-""" Redis Module """
-
-from functools import wraps
-import redis
 import requests
 from typing import Callable
+from functools import wraps
+import redis
 
-redis_ = redis.Redis()
+redis = redis.Redis()
 
+def count_req(method: Callable) -> Callable:
+    """
+    A decorator function to count the number of requests made to a given URL
+    and cache the response using Redis.
 
-def count_requests(method: Callable) -> Callable:
-    """ Decortator for counting """
+    Args:
+        method (Callable): A function that takes a URL and returns its
+        content as a string.
+
+    Returns:
+        Callable: A decorated function that count requests and caches responses
+    """
+
     @wraps(method)
-    def wrapper(url):  # sourcery skip: use-named-expression
-        """ Wrapper for decorator """
-        redis_.incr(f"count:{url}")
-        cached_html = redis_.get(f"cached:{url}")
+    def wrapper(url):
+        """
+        Wrapper function that decorates the input method.
+
+        Args:
+            url (str): The URL to fetch content from.
+
+        Returns:
+            str: The content of the URL as a string.
+        """
+        redis.incr(f"count:{url}")
+        cached_html = redis.get(f"cached:{url}")
         if cached_html:
             return cached_html.decode('utf-8')
         html = method(url)
-        redis_.setex(f"cached:{url}", 10, html)
+        redis.setex(f"cached:{url}", 10, html)
         return html
 
     return wrapper
 
-
-@count_requests
+@count_req
 def get_page(url: str) -> str:
-    """ Obtain the HTML content of a  URL """
+    """
+    Retrieve the content of a given URL using the requests library.
+
+    Args:
+        url (str): The URL to fetch content from.
+
+    Returns:
+        str: The content of the URL as a string.
+    """
     req = requests.get(url)
-    return req.text
+    req_text = req.text
+    return req_text
