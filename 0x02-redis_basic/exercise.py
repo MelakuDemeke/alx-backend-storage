@@ -13,9 +13,6 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return wrapper
 
-def call_history(method: Callable) -> Callable:
-    pass
-
 
 class Cache:
     def __init__(self):
@@ -30,9 +27,9 @@ class Cache:
 
     def get(self, key: str,
             fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
-        val = self._redis.get(key)
-        if fn:
-            val = fn(val)
+            val = self._redis.get(key)
+            if fn:
+                val = fn(val)
             return val
 
     def get_str(self, key: str) -> str:
