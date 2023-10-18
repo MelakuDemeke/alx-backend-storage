@@ -22,4 +22,7 @@ class Cache:
             return val
 
     def get_str():
-        pass
+        val = self._redis.get(key)
+        utf_val = val.decode('utf-8')
+        return utf_val
+
