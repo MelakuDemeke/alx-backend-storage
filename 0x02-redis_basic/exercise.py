@@ -28,6 +28,8 @@ class Cache:
 
     def get_int(self, key: str) -> int:
         val = self._redis.get(key)
-        vla_int = int(val.decode('utf-8'))
-        return vla_int
-
+        try:
+            val = int(val.decode('utf-8'))
+        except Exception:
+            val = 0
+        return val
