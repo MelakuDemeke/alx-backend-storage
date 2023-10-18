@@ -21,7 +21,7 @@ class Cache:
                 val = fn(val)
             return val
 
-    def get_str():
+    def get_str(self, key: str) -> str:
         val = self._redis.get(key)
         utf_val = val.decode('utf-8')
         return utf_val
