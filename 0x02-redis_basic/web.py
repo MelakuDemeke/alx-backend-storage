@@ -39,7 +39,7 @@ def count_req(method: Callable) -> Callable:
         return html
     return wrapper
 
-
+@count_req
 def get_page(url: str) -> str:
     """
     Retrieve the content of a given URL using the requests library.
