@@ -16,4 +16,7 @@ class Cache:
     
     def get(self, key: str,
             fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
-            pass
+            val = self._redis.get(key)
+            if fn:
+                val = fn(val)
+            return val
