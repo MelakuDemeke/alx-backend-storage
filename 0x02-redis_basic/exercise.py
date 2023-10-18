@@ -6,7 +6,9 @@ from functools import wraps
 
 
 def count_calls(method: Callable) -> Callable:
-    pass
+    @wraps(method)
+    def wraps(self, *args, **kwargs):
+        pass
 
 class Cache:
     def __init__(self):
