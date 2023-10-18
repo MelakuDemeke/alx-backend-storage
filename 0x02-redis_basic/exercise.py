@@ -26,3 +26,6 @@ class Cache:
         utf_val = val.decode('utf-8')
         return utf_val
 
+    def get_int(self, key: str) -> int:
+        pass
+
