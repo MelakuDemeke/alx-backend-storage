@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
+
 import redis
 from typing import Union, Optional, Callable
 from uuid import uuid4
 from functools import wraps
+'''here'''
 
 
 def count_calls(method: Callable) -> Callable:
@@ -12,6 +14,7 @@ def count_calls(method: Callable) -> Callable:
         self._redis.incr(key)
         return method(self, *args, **kwargs)
     return wrapper
+
 
 def call_history(method: Callable) -> Callable:
     key = method.__qualname__
@@ -26,6 +29,7 @@ def call_history(method: Callable) -> Callable:
         return output
     return wrapper
 
+
 def replay(method: Callable) -> None:
     name = method.__qualname__
     cache = redis.Redis()
@@ -35,7 +39,8 @@ def replay(method: Callable) -> None:
     outputs = cache.lrange(name + ":outputs", 0, -1)
     for i, o in zip(inputs, outputs):
         print("{}(*{}) -> {}".format(name, i.decode('utf-8'),
-                                    o.decode('utf-8')))
+                                     o.decode('utf-8')))
+
 
 class Cache:
     def __init__(self):
@@ -51,10 +56,11 @@ class Cache:
 
     def get(self, key: str,
             fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
-            val = self._redis.get(key)
-            if fn:
-                val = fn(val)
-            return val
+
+        val = self._redis.get(key)
+        if fn:
+            val = fn(val)
+        return val
 
     def get_str(self, key: str) -> str:
         val = self._redis.get(key)
