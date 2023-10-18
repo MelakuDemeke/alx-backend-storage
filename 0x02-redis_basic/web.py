@@ -4,6 +4,7 @@ from typing import Callable
 from functools import wraps
 import redis
 
+redis = redis.Redis()
 
 def count_req(method: Callable) -> Callable:
     """
@@ -17,7 +18,6 @@ def count_req(method: Callable) -> Callable:
     Returns:
         Callable: A decorated function that count requests and caches responses
     """
-    redis = redis.Redis()
 
     @wraps(method)
     def wrapper(url):
@@ -37,6 +37,7 @@ def count_req(method: Callable) -> Callable:
         html = method(url)
         redis.setex(f"cached:{url}", 10, html)
         return html
+
     return wrapper
 
 @count_req
