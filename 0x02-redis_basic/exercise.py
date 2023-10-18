@@ -8,8 +8,10 @@ from functools import wraps
 
 
 def count_calls(method: Callable) -> Callable:
+
     @wraps(method)
     def wrapper(self, *args, **kwargs):
+
         key = method.__qualname__
         self._redis.incr(key)
         return method(self, *args, **kwargs)
@@ -17,16 +19,19 @@ def count_calls(method: Callable) -> Callable:
 
 
 def call_history(method: Callable) -> Callable:
+
     key = method.__qualname__
     inputs = key + ":inputs"
     outputs = key + ":outputs"
 
     @wraps(method)
     def wrapper(self, *args, **kwargs):
+
         self._redis.rpush(inputs, str(args))
         output = method(self, *args, **kwargs)
         self._redis.rpush(outputs, str(output))
         return output
+
     return wrapper
 
 
@@ -43,13 +48,16 @@ def replay(method: Callable) -> None:
 
 
 class Cache:
+
     def __init__(self):
+
         self._redis = redis.Redis()
         self._redis.flushdb()
 
     @count_calls
     @call_history
-    def store(self, data: Union[str, bytes, float, int]) -> str:
+    def store(self, data: Union[str, bytes, int, float]) -> str:
+
         random_key = str(uuid4())
         self._redis.set(random_key, data)
         return random_key
@@ -63,11 +71,12 @@ class Cache:
         return val
 
     def get_str(self, key: str) -> str:
+
         val = self._redis.get(key)
-        utf_val = val.decode('utf-8')
-        return utf_val
+        return val.decode('utf-8')
 
     def get_int(self, key: str) -> int:
+
         val = self._redis.get(key)
         try:
             val = int(val.decode('utf-8'))
