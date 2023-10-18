@@ -13,6 +13,9 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return wrapper
 
+def call_history(method: Callable) -> Callable:
+    pass
+
 
 class Cache:
     def __init__(self):
