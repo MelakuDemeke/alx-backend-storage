@@ -6,10 +6,30 @@ import redis
 
 
 def count_req(method: Callable) -> Callable:
+    """
+    A decorator function to count the number of requests made to a given URL
+    and cache the response using Redis.
+
+    Args:
+        method (Callable): A function that takes a URL and returns its
+        content as a string.
+
+    Returns:
+        Callable: A decorated function that count requests and caches responses
+    """
     redis = redis.Redis()
 
     @wraps(method)
     def wrapper(url):
+        """
+        Wrapper function that decorates the input method.
+
+        Args:
+            url (str): The URL to fetch content from.
+
+        Returns:
+            str: The content of the URL as a string.
+        """
         redis.incr(f"count:{url}")
         cached_html = redis.get(f"cached:{url}")
         if cached_html:
@@ -21,6 +41,15 @@ def count_req(method: Callable) -> Callable:
 
 
 def get_page(url: str) -> str:
+    """
+    Retrieve the content of a given URL using the requests library.
+
+    Args:
+        url (str): The URL to fetch content from.
+
+    Returns:
+        str: The content of the URL as a string.
+    """
     req = requests.get(url)
     req_text = req.text
     return req_text
