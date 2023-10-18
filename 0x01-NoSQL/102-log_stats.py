@@ -40,3 +40,9 @@ if __name__ == "__main__":
             "count": 1
         }}
     ])
+
+    print("IPs:")
+    for top_visited_ip in top_visited_ips:
+        ip = top_visited_ip.get("ip")
+        count = top_visited_ip.get("count")
+        print(f'\t{ip}: {count}')
