@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-
+"""This module provides a Cache class for caching data in a Redis database.
+"""
 import redis
 from typing import Union, Optional, Callable
 from uuid import uuid4
 from functools import wraps
-'''here'''
 
 
 def count_calls(method: Callable) -> Callable:
