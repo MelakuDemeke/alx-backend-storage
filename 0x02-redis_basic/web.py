@@ -4,20 +4,12 @@ from typing import Callable
 from functools import wraps
 import redis
 
-redis = redis.Redis()
+redis_ = redis.Redis()
 
 
 def count_req(method: Callable) -> Callable:
-    """
-    A decorator function to count the number of requests made to a given URL
+    """A decorator function to count the number of requests made to a given URL
     and cache the response using Redis.
-
-    Args:
-        method (Callable): A function that takes a URL and returns its
-        content as a string.
-
-    Returns:
-        Callable: A decorated function that count requests and caches responses
     """
 
     @wraps(method)
@@ -31,12 +23,12 @@ def count_req(method: Callable) -> Callable:
         Returns:
             str: The content of the URL as a string.
         """
-        redis.incr(f"count:{url}")
-        cached_html = redis.get(f"cached:{url}")
+        redis_.incr(f"count:{url}")
+        cached_html = redis_.get(f"cached:{url}")
         if cached_html:
             return cached_html.decode('utf-8')
         html = method(url)
-        redis.setex(f"cached:{url}", 10, html)
+        redis_.setex(f"cached:{url}", 10, html)
         return html
 
     return wrapper
