@@ -46,13 +46,5 @@ def count_req(method: Callable) -> Callable:
 def get_page(url: str) -> str:
     """
     Retrieve the content of a given URL using the requests library.
-
-    Args:
-        url (str): The URL to fetch content from.
-
-    Returns:
-        str: The content of the URL as a string.
     """
-    req = requests.get(url)
-    req_text = req.text
-    return req_text
+    return requests.get(url).text
