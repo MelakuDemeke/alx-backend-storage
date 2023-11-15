@@ -6,6 +6,7 @@ import redis
 
 redis = redis.Redis()
 
+
 def count_req(method: Callable) -> Callable:
     """
     A decorator function to count the number of requests made to a given URL
@@ -39,6 +40,7 @@ def count_req(method: Callable) -> Callable:
         return html
 
     return wrapper
+
 
 @count_req
 def get_page(url: str) -> str:
